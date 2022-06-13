@@ -9,8 +9,5 @@ class Tag(models.Model):
 
     name = models.fields.CharField(verbose_name="Tag Name", max_length=100, null=True)
 
-    def _str_(self):
-        return f"Tag: {self.name}"
-
-
-
+    def __str__(self):
+        return f"{self.name}"
