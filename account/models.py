@@ -24,7 +24,7 @@ class User(AbstractUser):
     type = models.fields.CharField(verbose_name="User Type", choices=TYPES, max_length=10)
     allow_mail_notification = models.BooleanField(default=True)
     gender = models.fields.CharField(verbose_name="Gender", choices=GENDER, max_length=1)
-    date_of_birth = models.fields.DateField(verbose_name="Date of Birth")
+    date_of_birth = models.fields.DateField(verbose_name="Date of Birth", default='1-5-2000')
     """
     Fields related to Developer (user_type)
     """
