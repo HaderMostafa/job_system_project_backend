@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 DEFAULT_APPS = [
+    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -47,7 +48,8 @@ HELPER_APPS = [
 
 MY_CUSTOM_APPS = [
     'account',
-    'tag'
+    'tag',
+    'job'
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + HELPER_APPS + MY_CUSTOM_APPS
@@ -142,6 +144,9 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES':
         ['rest_framework.permissions.IsAuthenticated'],
 }
+AUTHENTICATION_BACKENDS = (
+    ('django.contrib.auth.backends.ModelBackend'),
+)
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media_root')
