@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 DEFAULT_APPS = [
+    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -47,7 +48,8 @@ HELPER_APPS = [
 
 MY_CUSTOM_APPS = [
     'account',
-    'tag'
+    'tag',
+    'job'
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + HELPER_APPS + MY_CUSTOM_APPS
