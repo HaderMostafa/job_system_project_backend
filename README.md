@@ -15,3 +15,5 @@
 >./manage.py makemigrations
 > 
 >./manage.py migrate
+> python -m pip install Pillow
+
