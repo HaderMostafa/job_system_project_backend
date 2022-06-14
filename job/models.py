@@ -1,5 +1,7 @@
 from django.db import models
 
+
+
 class Job(models.Model):
     STATUS = (
         ('Open', 'Open'),
@@ -11,14 +13,15 @@ class Job(models.Model):
     name = models.fields.CharField(verbose_name='Job Name', max_length=50)
     description = models.fields.CharField(verbose_name='Description', max_length=250)
     status = models.fields.CharField(choices=STATUS,max_length=40)
-    Creation_time=models.fields.DateField(verbose_name='CreationTime')
+    #Creation_time=models.fields.DateField(verbose_name='CreationTime')
     Modification_time = models.fields.DateField(verbose_name='Modification Time')
     Tags = models.ManyToManyField('tag.tag')
     #applied_developer = models.ManyToManyField('user.user')
     #accepted_developer= models.OneToOneField('user.user')
     #banner_image =models.ImageField(upload_to='job',default='')
 
-    
+    creation_time = models.DateTimeField(auto_now_add=True)
+    update_time = models.DateTimeField(auto_now=True)
 
-    def str(self):
+    def __str__(self):
         return self.name

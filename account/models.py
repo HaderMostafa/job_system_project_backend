@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser, UserManager
-
+from .validator import validate_file_extension
 
 # from tag.models import Tag
 # from job_system_project import tag
@@ -32,7 +32,7 @@ class User(AbstractUser):
     Fields related to Developer (user_type)
     """
     tags = models.ManyToManyField('tag.tag')
-    cv = models.FileField(verbose_name="CV", upload_to='media', null=True, blank=True)
+    cv = models.FileField(verbose_name="CV", upload_to='media', validators=[validate_file_extension],null=True, blank=True)
     """
     Fields related to Recruiter (user_type)
     """
