@@ -11,9 +11,10 @@ class Notification(models.Model):
 
     message = models.fields.TextField(verbose_name='message', null=False)
     created_at = models.fields.DateTimeField(auto_now_add=True)
-    user_id=models.ForeginKey(User,on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
     def __str__(self):
         return f"{self.name}"
+
 

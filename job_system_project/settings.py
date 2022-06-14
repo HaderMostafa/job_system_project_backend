@@ -49,7 +49,8 @@ HELPER_APPS = [
 MY_CUSTOM_APPS = [
     'account',
     'tag',
-    'job'
+    'job',
+    'notification',
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + HELPER_APPS + MY_CUSTOM_APPS
