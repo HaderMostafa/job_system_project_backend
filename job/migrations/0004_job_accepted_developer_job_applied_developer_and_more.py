@@ -28,9 +28,4 @@ class Migration(migrations.Migration):
             name='banner_image',
             field=models.ImageField(default='cat.img', upload_to='job'),
         ),
-        migrations.AlterField(
-            model_name='job',
-            name='creation_time',
-            field=models.DateTimeField(auto_now_add=True, verbose_name='CreationTime'),
-        ),
     ]

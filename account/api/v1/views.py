@@ -1,3 +1,4 @@
+from django.contrib.auth import logout
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import status
 from rest_framework.decorators import authentication_classes, permission_classes, api_view
@@ -81,3 +82,11 @@ def update_user(request, user_id):
         response['status'] = status.HTTP_400_BAD_REQUEST
 
     return Response(**response)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def user_logout(request):
+    request.user.auth_token.delete()
+    logout(request)
+    return Response('User Logged out successfully')
