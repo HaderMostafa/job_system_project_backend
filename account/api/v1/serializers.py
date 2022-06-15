@@ -1,7 +1,8 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-# from tag.serializers import TagSerializer
+from tag.serializers import TagSerializer
+from tag.models import Tag
 User = get_user_model()
 
 
@@ -25,7 +26,6 @@ class SignUpSerializer(serializers.ModelSerializer):
             allow_mail_notification=self.validated_data.get('allow_mail_notification'),
             gender=self.validated_data.get('gender'),
             date_of_birth=self.validated_data.get('date_of_birth'),
-            # tags=self.validated_data.get('tags'),
             cv=self.validated_data.get('cv'),
             address=self.validated_data.get('address'),
             history=self.validated_data.get('history'),
@@ -35,11 +35,13 @@ class SignUpSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({'detail': 'passwords did not match'})
         user.set_password(self.validated_data.get('password'))
         user.save()
+        user.tags.set(self.validated_data.get('tags'))
         return user
 
 
 class UserSerializer(serializers.ModelSerializer):
-    # tags = TagSerializer(many=True)
+    tags = TagSerializer(many=True)
+
     class Meta:
         model = User
         fields = ['username', 'email', 'type', 'allow_mail_notification', 'gender', 'date_of_birth', 'tags', 'cv',

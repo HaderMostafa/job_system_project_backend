@@ -3,8 +3,8 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser, UserManager
 from .validator import validate_file_extension
 
-# from tag.models import Tag
-# from job_system_project import tag
+from tag.models import Tag
+
 
 
 class User(AbstractUser):
@@ -31,7 +31,7 @@ class User(AbstractUser):
     """
     Fields related to Developer (user_type)
     """
-    tags = models.ManyToManyField('tag.tag')
+    tags = models.ManyToManyField(Tag)
     cv = models.FileField(verbose_name="CV", upload_to='media', validators=[validate_file_extension],null=True, blank=True)
     """
     Fields related to Recruiter (user_type)
@@ -42,7 +42,7 @@ class User(AbstractUser):
     AbstractUser Fields override
     """
     email = models.EmailField(verbose_name="Email Address", unique=True, max_length=50)
-    # is_active = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=False)
 
     REQUIRED_FIELDS = ['email', 'password','gender', 'type', 'date_of_birth']
     # objects = UserManager()
