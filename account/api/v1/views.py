@@ -67,6 +67,7 @@ def get_user(request, user_id):
 @api_view(['PUT', 'PATCH'])
 # @permission_classes([])
 def update_user(request, user_id):
+    #check
     response = {'data': {}, 'status': status.HTTP_204_NO_CONTENT}
     user_instance = User.objects.get(id=user_id)
 
