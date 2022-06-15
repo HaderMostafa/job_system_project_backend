@@ -15,3 +15,6 @@
 >./manage.py makemigrations
 > 
 >./manage.py migrate
+### > To upload Image:
+> python -m pip install Pillow
+

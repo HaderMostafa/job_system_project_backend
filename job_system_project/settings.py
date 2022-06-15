@@ -49,7 +49,8 @@ HELPER_APPS = [
 MY_CUSTOM_APPS = [
     'account',
     'tag',
-    'job'
+    'job',
+    'notification',
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + HELPER_APPS + MY_CUSTOM_APPS
@@ -144,6 +145,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES':
         ['rest_framework.permissions.IsAuthenticated'],
 }
+
 AUTHENTICATION_BACKENDS = (
     ('django.contrib.auth.backends.ModelBackend'),
 )

@@ -1,5 +1,6 @@
 from django.db import models
 
+from account.models import User
 
 
 class Job(models.Model):
@@ -19,7 +20,9 @@ class Job(models.Model):
     #applied_developer = models.ManyToManyField('user.user')
     #accepted_developer= models.OneToOneField('user.user')
     #banner_image =models.ImageField(upload_to='job',default='')
-
+    applied_developer = models.ManyToManyField(User, related_name="applied_developer",null=True)
+    accepted_developer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="accepted_developer", null=True)
+    banner_image = models.ImageField(upload_to='job', default='cat.img')
     creation_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
 
