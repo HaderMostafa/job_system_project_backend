@@ -1,30 +1,42 @@
 from django.contrib import admin
+from django.utils.html import format_html
+from django.utils.safestring import mark_safe
 from .models import Job
-# from account.models import User
+
+
 @admin.register(Job)
 class JobAdmin (admin.ModelAdmin):
-    search_fields = ['creation_time', 'accepted_developer']
     list_filter = ('name', 'status',)
-    list_display = ['name', 'description', 'status', 'Modification_time', 'accepted_developer','banner_image', 'creation_time', 'update_time']
+    # needed to add created_by/job_owner to job model then to search
 
+    # developer_name if it means applied_developer
+    search_fields = ['applied_developer__username']
 
-    # def my_custome_function_applieddeveloper_field(self, obj):
-        # my_empty_list=[]
-        #
-        # for User_obj in obj.User_set.all():
-        #     my_empty_list.append(User_obj.username)
-        #     print(User_obj.username)
+    # not working
+    # search_fields = ['accepted_developer']
+    list_display = ['name', 'description', 'status', 'creation_time', 'update_time', 'All_Tags', 'Applied_Developers', 'accepted_developer']
 
-        # my_empty_list=[User_obj.username for User_obj in obj.User_set.all()]
+    def Applied_Developers(self, obj):
+        if obj.applied_developer.all():
+            return list(obj.applied_developer.all().values_list('username', flat=True))
+        else:
+            return 'NA'
 
-        # applied_developers = [User_obj.username for User_obj in obj.User_set.all()]
-        #
-        # return f"{applied_developers}"
+    def All_Tags(self, obj):
+        if obj.Tags.all():
+            return list(obj.Tags.all().values_list('name', flat=True))
+        else:
+            return 'NA'
 
+    # Not working
+    # def get_image(self):
+    #     return mark_safe('<img src="/media/%s" width="150" height="150" />' % (self.banner_image))
+
+    # def image_tag(self, obj):
+    #     return format_html('<img src="media" />'.format(obj.banner_image.url))
 
     def has_delete_permission(self, request, obj=None):
         return False
-
 
     def has_change_permission(self, request, obj=None):
         return False

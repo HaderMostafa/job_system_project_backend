@@ -43,7 +43,8 @@ DEFAULT_APPS = [
 HELPER_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
-    'django_extensions'
+    'django_extensions',
+    'data_seeder',
 ]
 
 MY_CUSTOM_APPS = [

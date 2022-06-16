@@ -17,4 +17,6 @@
 >./manage.py migrate
 ### > To upload Image:
 > python -m pip install Pillow
+### > To Install Django Seeder:
+> pip install django-data-seeder
 
