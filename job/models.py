@@ -1,8 +1,4 @@
 from django.db import models
-<<<<<<< HEAD
-=======
-
->>>>>>> 6fff8914fbf359d753825462f5171567e18c7b5c
 from account.models import User
 
 
