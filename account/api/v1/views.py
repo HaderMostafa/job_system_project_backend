@@ -36,20 +36,23 @@ def signup(request):
 # @authentication_classes([TokenAuthentication])
 # @permission_classes([IsAuthenticated])
 def get_users(request):
-    users = User.objects.all()
+    users = User.objects.all().exclude(id=1)
     serializer = UserSerializer(users, many=True)
     return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
-# @permission_classes([])
 def get_user(request, user_id):
     response = {'data': {}, 'status': status.HTTP_204_NO_CONTENT}
     try:
-        user = User.objects.get(id=user_id)
-        serializer = UserSerializer(user, many=False)
-        response['data'] = serializer.data
-        response['status'] = status.HTTP_200_OK
+        if(user_id != 1):
+            user = User.objects.get(id=user_id)
+            serializer = UserSerializer(user, many=False)
+            response['data'] = serializer.data
+            response['status'] = status.HTTP_200_OK
+        else:
+            response['data'] = {'no content'}
+            response['status'] = status.HTTP_200_OK
     except ObjectDoesNotExist:
         response['data'] = {'no content'}
         response['status'] = status.HTTP_204_NO_CONTENT

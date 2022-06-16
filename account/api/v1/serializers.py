@@ -1,8 +1,8 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
-
 from tag.serializers import TagSerializer
 from tag.models import Tag
+
 User = get_user_model()
 
 
@@ -34,6 +34,7 @@ class SignUpDeveloperSerializer(serializers.ModelSerializer):
         user.save()
         user.tags.set(self.validated_data.get('tags'))
         return user
+
 
 class SignUpRecruiterSerializer(serializers.ModelSerializer):
     password_confirm = serializers.CharField(write_only=True)

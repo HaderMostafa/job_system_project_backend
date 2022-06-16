@@ -1,7 +1,7 @@
 from django.contrib import admin
+from .models import Job
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
-from .models import Job
 
 
 @admin.register(Job)

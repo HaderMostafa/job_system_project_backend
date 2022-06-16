@@ -1,5 +1,4 @@
 from django.db import models
-
 from account.models import User
 
 
@@ -9,8 +8,6 @@ class Job(models.Model):
         ('Inprogress', 'Inprogress'),
         ('Finished', 'Finished'),
     )
-
-  
     name = models.fields.CharField(verbose_name='Job Name', max_length=50)
     description = models.fields.CharField(verbose_name='Description', max_length=250)
     status = models.fields.CharField(choices=STATUS,max_length=40)
