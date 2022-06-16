@@ -5,23 +5,28 @@ from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.response import Response
-from .serializers import SignUpSerializer, UserSerializer, UserUpdateSerializer
+from .serializers import SignUpDeveloperSerializer, SignUpRecruiterSerializer, UserSerializer, UserUpdateSerializer
 from account.models import User
+from rest_framework import serializers
 
 
-@api_view()
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
-def login_again(request):
-    return Response(data='HI')
+# @api_view()
+# @authentication_classes([TokenAuthentication])
+# @permission_classes([IsAuthenticated])
+# def login_again(request):
+#     return Response(data='HI')
 
 
 @api_view(['POST'])
+@authentication_classes([])
 @permission_classes([])
 def signup(request):
     response = {'data': {}, 'status': status.HTTP_400_BAD_REQUEST}
-    serializer = SignUpSerializer(data=request.data)
-
+    url_direction = request.path.split('/')[4]
+    if (url_direction == 'signupdeveloper'):
+        serializer = SignUpDeveloperSerializer(data=request.data)
+    else:
+        serializer = SignUpRecruiterSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
         response['data'] = serializer.data['username']
@@ -33,8 +38,7 @@ def signup(request):
 
 
 @api_view(['GET'])
-@authentication_classes([])
-@permission_classes([])
+# @permission_classes([])
 def get_users(request):
     users = User.objects.all()
     serializer = UserSerializer(users, many=True)
@@ -42,8 +46,7 @@ def get_users(request):
 
 
 @api_view(['GET'])
-@authentication_classes([])
-@permission_classes([])
+# @permission_classes([])
 def get_user(request, user_id):
     response = {'data': {}, 'status': status.HTTP_204_NO_CONTENT}
     try:
@@ -62,9 +65,9 @@ def get_user(request, user_id):
 
 
 @api_view(['PUT', 'PATCH'])
-@authentication_classes([])
-@permission_classes([])
+# @permission_classes([])
 def update_user(request, user_id):
+    #check
     response = {'data': {}, 'status': status.HTTP_204_NO_CONTENT}
     user_instance = User.objects.get(id=user_id)
 
@@ -85,7 +88,7 @@ def update_user(request, user_id):
 
 
 @api_view(["GET"])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def user_logout(request):
     request.user.auth_token.delete()
     logout(request)

@@ -47,9 +47,6 @@ def job_detail(request,id,format=None):
 @api_view(['GET'])
 def job_search_list(request):
     query = request.query_params.get('query')
-        # params =kwargs
-        # print(params['pk'])
-        # params_list = params['pk']
     jobs=Job.objects.filter(Tags__in=[query])
     serializer=JobSerializer(jobs,many=True)
     return JsonResponse({"filtered jobs":serializer.data},safe=False)
