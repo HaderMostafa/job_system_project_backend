@@ -17,7 +17,7 @@ from rest_framework.authentication import TokenAuthentication
 def signup(request):
     response = {'data': {}, 'status': status.HTTP_400_BAD_REQUEST}
     url_direction = request.path.split('/')[4]
-    if (url_direction == 'signupdeveloper'):
+    if url_direction == 'signupdeveloper':
         serializer = SignUpDeveloperSerializer(data=request.data)
     else:
         serializer = SignUpRecruiterSerializer(data=request.data)
@@ -45,7 +45,7 @@ def get_users(request):
 def get_user(request, user_id):
     response = {'data': {}, 'status': status.HTTP_204_NO_CONTENT}
     try:
-        if(user_id != 1):
+        if user_id != 1:
             user = User.objects.get(id=user_id)
             serializer = UserSerializer(user, many=False)
             response['data'] = serializer.data
