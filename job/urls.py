@@ -6,7 +6,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 urlpatterns = [
     
    
-    path('list/', jobs_list, name='list'),
+    path('list', jobs_list, name='list'),
     path('detail/<int:id>', job_detail, name='detail'),
     path('filtered/',job_search_list, name='filtered')
     

@@ -6,19 +6,28 @@ from .serializers import JobSerializer
 from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework import filters
+from .permissions import IsRecruiter
+from rest_framework.decorators import permission_classes
 
 @api_view(['GET','POST'])
+# @permission_classes([IsRecruiter])
 def jobs_list(request,format=None):
      if request.method=='GET':
        jobs=Job.objects.all()
        serializer=JobSerializer(jobs,many=True)
        return JsonResponse({"jobs":serializer.data},safe=False)
      if request.method=='POST':
+        #print('////////////////////////////')
+        # print(request.data.get('applied_developer')[0].get('id'))
         serializer= JobSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data,status.HTTP_201_CREATED)
+        if serializer.is_valid(raise_exception=True):
+            job = serializer.save()
+            job.Tags.set(request.data.get('Tags'))
+            job.applied_developer.set(request.data.get('applied_developer'))
+            job.accepted_developer_id = request.data.get('accepted_developer')
+            job.save()
+            return Response("status: Job created successfully",status.HTTP_201_CREATED)
+        return Response(status.HTTP_400_BAD_REQUEST)
         
         
 @api_view(['GET','PUT','DELETE'])
@@ -50,5 +59,3 @@ def job_search_list(request):
     jobs=Job.objects.filter(Tags__in=[query])
     serializer=JobSerializer(jobs,many=True)
     return JsonResponse({"filtered jobs":serializer.data},safe=False)
-  
-   

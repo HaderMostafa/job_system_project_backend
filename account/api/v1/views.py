@@ -1,5 +1,6 @@
 from django.contrib.auth import logout
 from django.core.exceptions import ObjectDoesNotExist
+from django.http import JsonResponse
 from rest_framework import status
 from rest_framework.decorators import authentication_classes, permission_classes, api_view
 from rest_framework.permissions import IsAuthenticated
