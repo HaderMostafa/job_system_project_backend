@@ -31,7 +31,7 @@ class User(AbstractUser):
     """
 
     #modify it to be null in case of recruiter
-    tags = models.ManyToManyField(Tag)
+    tags = models.ManyToManyField(Tag, null=True)
     cv = models.FileField(verbose_name="CV", upload_to='media', validators=[validate_file_extension], null=True, blank=True)
     """
     Fields related to Recruiter (user_type)

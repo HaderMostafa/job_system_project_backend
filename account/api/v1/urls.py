@@ -5,7 +5,6 @@ from .views import signup, get_users, get_user, update_user, user_logout
 
 urlpatterns = [
     path('rest_login/', obtain_auth_token),
-    # path('login_again/', login_again),
     path('signupdeveloper/', signup, name='signupAsDeveloper'),
     path('signuprecruiter/', signup, name='signupAsRecruiter'),
     path('list/', get_users, name='list'),
