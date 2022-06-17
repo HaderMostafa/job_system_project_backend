@@ -108,3 +108,6 @@ def apply(request, id):
 
     except Job.DoesNotExist:
         return Response("Job doesn't exist ", status=status.HTTP_404_NOT_FOUND)
+
+
+# func accept
