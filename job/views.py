@@ -4,8 +4,9 @@ from .serializers import JobSerializer
 from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.response import Response
-from .permissions import IsRecruiter
+from .permissions import IsRecruiter, IsDeveloper
 from rest_framework.decorators import permission_classes
+from account.models import User
 
 
 @api_view(['GET'])
@@ -78,3 +79,32 @@ def update(request, id):
     except Job.DoesNotExist:
         return Response("Job doesn't exist ", status=status.HTTP_404_NOT_FOUND)
 
+
+@api_view(['Get'])
+@permission_classes([IsDeveloper])
+def apply(request, id):
+    try:
+        job = Job.objects.get(pk=id)
+        job_tags = list(Job.objects.filter(pk=id).values_list('Tags', flat=True))
+
+        user_id = request.user.id
+        developer_tags = list(User.objects.filter(pk=user_id).values_list('tags', flat=True))
+
+        def isIncluded():
+            for tag in job_tags:
+                for item in developer_tags:
+                    if tag == item:
+                        return True
+
+        if job.status == 'Open':
+            if isIncluded():
+                job.applied_developer.add(user_id)
+                job.save()
+                return Response("developer has been applied th this job", status=status.HTTP_200_OK)
+            else:
+                return Response("developer has no matching tags with job", status=status.HTTP_406_NOT_ACCEPTABLE)
+        else:
+            return Response("Job status is not Open", status=status.HTTP_406_NOT_ACCEPTABLE)
+
+    except Job.DoesNotExist:
+        return Response("Job doesn't exist ", status=status.HTTP_404_NOT_FOUND)
