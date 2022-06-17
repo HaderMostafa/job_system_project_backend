@@ -50,8 +50,7 @@ def job_detail(request, id, format=None):
         if job.status == 'Open':
             job.delete()
             return JsonResponse({"status": "job is deleted successfully"}, status=status.HTTP_202_ACCEPTED)
-        return JsonResponse({"status": "can't delete job of status In progress or finished"},
-                            status=status.HTTP_406_NOT_ACCEPTABLE)
+        return JsonResponse({"status": "can't delete job of status In progress or finished"}, status=status.HTTP_406_NOT_ACCEPTABLE)
 
 
 @api_view(['GET'])
@@ -60,3 +59,20 @@ def job_search_list(request):
     jobs = Job.objects.filter(Tags__in=[query])
     serializer = JobSerializer(jobs, many=True)
     return JsonResponse({"filtered jobs": serializer.data}, safe=False)
+
+
+@api_view(['Get'])
+def update(request, id):
+    job = Job.objects.get(pk=id)
+    if request.user == job.accepted_developer or request.user == job.created_by:
+        if job.status == 'Inprogress':
+            job.status = 'Finished'
+            job.save()
+            return Response(status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_202_ACCEPTED)
+    else:
+        return Response(status=status.HTTP_406_NOT_ACCEPTABLE)
+
+
+
