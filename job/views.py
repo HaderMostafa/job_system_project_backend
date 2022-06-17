@@ -63,16 +63,18 @@ def job_search_list(request):
 
 @api_view(['Get'])
 def update(request, id):
-    job = Job.objects.get(pk=id)
-    if request.user == job.accepted_developer or request.user == job.created_by:
-        if job.status == 'Inprogress':
-            job.status = 'Finished'
-            job.save()
-            return Response(status=status.HTTP_200_OK)
+    try:
+        job = Job.objects.get(pk=id)
+        if request.user == job.accepted_developer or request.user == job.created_by:
+            if job.status == 'Inprogress':
+                job.status = 'Finished'
+                job.save()
+                return Response("Job updated successfully", status=status.HTTP_200_OK)
+            else:
+                return Response("Job status should be Inprogress to be updated", status=status.HTTP_406_NOT_ACCEPTABLE)
         else:
-            return Response(status=status.HTTP_202_ACCEPTED)
-    else:
-        return Response(status=status.HTTP_406_NOT_ACCEPTABLE)
+            return Response("You Don't Have permission to do this action", status=status.HTTP_406_NOT_ACCEPTABLE)
 
-
+    except Job.DoesNotExist:
+        return Response("Job doesn't exist ", status=status.HTTP_404_NOT_FOUND)
 

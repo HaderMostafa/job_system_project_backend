@@ -21,4 +21,6 @@
 > pip install django-data-seeder
 ### > To Enable CORS Headers:
 > pip install django-cors-headers
+### > To Create Admin:
+> ./manage.py createsuperuser
 

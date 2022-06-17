@@ -19,7 +19,7 @@ def job_update_action(*args, **kwargs):
             subject = 'Job has been finished'
             mail = job_owner_obj.email
             receivers = ['hadeermostafa.094@gmail.com', mail]
-            msg = f"Job has been marked as finished from the developer, Please check {job_owner}'s work"
+            msg = f"Check {obj.name} Job, it has been marked as finished"
             id = job_owner.id
             notify = Notification(message=msg, user_id=id)
             notify.save()
