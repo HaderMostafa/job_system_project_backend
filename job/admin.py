@@ -9,6 +9,8 @@ class JobAdmin (admin.ModelAdmin):
     list_filter = ('name', 'status',)
     # needed to add created_by/job_owner to job model then to search
 
+    list_display = ['name', 'description', 'status', 'update_time', 'accepted_developer','banner_image', 'creation_time', 'update_time']
+
     # developer_name if it means applied_developer
     search_fields = ['applied_developer__username']
 
