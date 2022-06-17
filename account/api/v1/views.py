@@ -63,6 +63,29 @@ def get_user(request, user_id):
         return Response(**response)
 
 
+@api_view(['GET'])
+def get_profile(request):
+    response = {'data': {}, 'status': status.HTTP_204_NO_CONTENT}
+    user_id = request.user.id
+    try:
+        if user_id != 1:
+            user = User.objects.get(id=user_id)
+            serializer = UserSerializer(user, many=False)
+            response['data'] = serializer.data
+            response['status'] = status.HTTP_200_OK
+        else:
+            response['data'] = {'no content'}
+            response['status'] = status.HTTP_200_OK
+    except ObjectDoesNotExist:
+        response['data'] = {'no content'}
+        response['status'] = status.HTTP_204_NO_CONTENT
+    except:
+        response['data'] = {'internal server error'}
+        response['status'] = status.HTTP_500_INTERNAL_SERVER_ERROR
+    finally:
+        return Response(**response)
+
+
 @api_view(['PUT', 'PATCH'])
 @permission_classes([IsOwner])
 def update_user(request, user_id):
