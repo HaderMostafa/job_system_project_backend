@@ -5,7 +5,7 @@ from .models import Job
 class JobAdmin (admin.ModelAdmin):
     search_fields = ['creation_time', 'accepted_developer']
     list_filter = ('name', 'status',)
-    list_display = ['name', 'description', 'status', 'Modification_time', 'accepted_developer','banner_image', 'creation_time', 'update_time']
+    list_display = ['name', 'description', 'status', 'update_time', 'accepted_developer','banner_image', 'creation_time', 'update_time']
 
 
     # def my_custome_function_applieddeveloper_field(self, obj):

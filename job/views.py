@@ -9,16 +9,15 @@ from rest_framework.response import Response
 from .permissions import IsRecruiter
 from rest_framework.decorators import permission_classes
 
-@api_view(['GET','POST'])
-# @permission_classes([IsRecruiter])
+@api_view(['GET'])
 def jobs_list(request,format=None):
-     if request.method=='GET':
        jobs=Job.objects.all()
        serializer=JobSerializer(jobs,many=True)
        return JsonResponse({"jobs":serializer.data},safe=False)
-     if request.method=='POST':
-        #print('////////////////////////////')
-        # print(request.data.get('applied_developer')[0].get('id'))
+
+@api_view(['POST'])
+@permission_classes([IsRecruiter])
+def create_job(request,format=None):
         serializer= JobSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             job = serializer.save()
@@ -51,7 +50,7 @@ def job_detail(request,id,format=None):
          if job.status=='Open':
            job.delete()
            return JsonResponse({"status":"job is deleted successfully"},status=status.HTTP_202_ACCEPTED)
-         return JsonResponse({"status":"can't delete job of status In progress or finished"},status=status.HTTP_404_NOT_FOUND)
+         return JsonResponse({"status":"can't delete job of status In progress or finished"},status=status.HTTP_406_NOT_ACCEPTABLE)
         
 @api_view(['GET'])
 def job_search_list(request):
