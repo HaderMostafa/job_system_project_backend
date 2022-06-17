@@ -23,7 +23,7 @@ def job_update_action(*args, **kwargs):
             id = job_owner.id
             notify = Notification(message=msg, user_id=id)
             notify.save()
-            res = send_mail(subject=subject, message=msg, from_email='djangonotifysys@gmail.com', recipient_list= receivers)
+            res = send_mail(subject=subject, message=msg, from_email='djangonotifysys@gmail.com', recipient_list= receivers, fail_silently=False)
             print(res)
         else:
             pass

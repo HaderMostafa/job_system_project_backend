@@ -13,6 +13,6 @@ def account_signup_action(*args, **kwargs):
         obj = kwargs.get('instance')
         current_user = obj.username
         msg = f"New User has been signed up recently, Please activate {current_user}'s Profile"
-        res = send_mail(subject=subject, message=msg, from_email='djangonotifysys@gmail.com', recipient_list=receivers)
+        res = send_mail(subject=subject, message=msg, from_email='djangonotifysys@gmail.com', recipient_list=receivers, fail_silently=False)
         print(res)
 
