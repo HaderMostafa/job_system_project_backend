@@ -13,7 +13,8 @@ class IsRecruiter(BasePermission):
 class IsDeveloper(BasePermission):
     def has_permission(self, request, view):
         def check_not_apply_before():
-            applied_developer_ids = list(Job.objects.all().values_list('applied_developer', flat=True))
+            applied_developer_ids = list(Job.objects.filter(status='Open').values_list('applied_developer', flat=True))
+            print(applied_developer_ids)
             if request.user.id not in applied_developer_ids:
                 return True
             else:
