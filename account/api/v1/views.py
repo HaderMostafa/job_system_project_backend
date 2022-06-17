@@ -107,6 +107,28 @@ def update_user(request, user_id):
 
     return Response(**response)
 
+@api_view(['PUT'])
+@permission_classes([IsOwner])
+def update_profile(request):
+    response = {'data': {}, 'status': status.HTTP_204_NO_CONTENT}
+    user_id = request.user.id
+    user_instance = User.objects.get(id=user_id)
+
+    if request.method == 'PUT':
+        serializer = UserUpdateSerializer(instance=user_instance, data=request.data)
+    else:
+        serializer = UserUpdateSerializer(instance=user_instance, data=request.data, partial=True)
+
+    if serializer.is_valid():
+        serializer.save()
+        response['data'] = serializer.data['username']
+        response['status'] = status.HTTP_200_OK
+    else:
+        response['data'] = serializer.errors
+        response['status'] = status.HTTP_400_BAD_REQUEST
+
+    return Response(**response)
+
 
 @api_view(["GET"])
 # @permission_classes([IsAuthenticated])
