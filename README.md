@@ -15,3 +15,10 @@
 >./manage.py makemigrations
 > 
 >./manage.py migrate
+### > To upload Image:
+> python -m pip install Pillow
+### > To Install Django Seeder:
+> pip install django-data-seeder
+### > To Enable CORS Headers:
+> pip install django-cors-headers
+

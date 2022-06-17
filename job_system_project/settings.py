@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 DEFAULT_APPS = [
+    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,12 +43,16 @@ DEFAULT_APPS = [
 HELPER_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
-    'django_extensions'
+    'django_extensions',
+    'data_seeder',
+    'corsheaders',
 ]
 
 MY_CUSTOM_APPS = [
     'account',
-    'tag'
+    'tag',
+    'job',
+    'notification',
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + HELPER_APPS + MY_CUSTOM_APPS
@@ -60,7 +65,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'job_system_project.urls'
 
@@ -143,7 +152,22 @@ REST_FRAMEWORK = {
         ['rest_framework.permissions.IsAuthenticated'],
 }
 
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+)
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media_root')
 
 AUTH_USER_MODEL = 'account.User'
+
+# Mail Configuration
+EMAIL_HOST = 'smtp.mailtrap.io'
+EMAIL_HOST_USER = '5c79325f103ce5'
+EMAIL_HOST_PASSWORD = '7eaac2bbfd789d'
+EMAIL_PORT = '2525'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_HOST_USER = 'djangonotifysys@gmail.com'
+# EMAIL_HOST_PASSWORD = 'USPNXdaFEwtb200'
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 587
