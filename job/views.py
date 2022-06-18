@@ -1,7 +1,10 @@
 from django.http import JsonResponse
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+
 from .models import Job
 from .serializers import JobSerializer
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, authentication_classes
 from rest_framework import status
 from rest_framework.response import Response
 from .permissions import IsRecruiter, IsDeveloper
@@ -25,6 +28,7 @@ def create_job(request, format=None):
         job.Tags.set(request.data.get('Tags'))
         job.applied_developer.set(request.data.get('applied_developer'))
         job.accepted_developer_id = request.data.get('accepted_developer')
+        job.created_by_id = request.user.id
         job.save()
         return Response("status: Job created successfully", status.HTTP_201_CREATED)
     return Response(status.HTTP_400_BAD_REQUEST)
@@ -80,8 +84,9 @@ def update(request, id):
         return Response("Job doesn't exist ", status=status.HTTP_404_NOT_FOUND)
 
 
-@api_view(['Get'])
-@permission_classes([IsDeveloper])
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated, IsDeveloper])
 def apply(request, id):
     try:
         job = Job.objects.get(pk=id)
@@ -98,7 +103,7 @@ def apply(request, id):
 
         if job.status == 'Open':
             if isIncluded():
-                job.applied_developer.add(user_id)
+                job.applied_developer.add(request.user)
                 job.save()
                 return Response("developer has been applied th this job", status=status.HTTP_200_OK)
             else:
@@ -110,12 +115,10 @@ def apply(request, id):
         return Response("Job doesn't exist ", status=status.HTTP_404_NOT_FOUND)
 
 
-@api_view(['Post'])
+@api_view(['GET'])
 @permission_classes([IsRecruiter])
-def assign(request):
+def assign(request, job_id, developer_id):
     try:
-        job_id = request.data['job_id']
-        developer_id = int(request.data['developer_id'])
         job = Job.objects.get(pk=job_id)
         developer_ids = list(Job.objects.filter(pk=job_id).values_list('applied_developer', flat=True))
         if request.user == job.created_by and job.status == 'Open':
