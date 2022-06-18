@@ -71,7 +71,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'type', 'allow_mail_notification', 'gender', 'date_of_birth', 'tags', 'cv',
+        fields = ['id', 'username', 'email', 'type', 'allow_mail_notification', 'gender', 'date_of_birth', 'tags', 'cv',
                   'address', 'history']
         depth = 1
 
