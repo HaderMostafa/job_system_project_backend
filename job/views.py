@@ -110,4 +110,24 @@ def apply(request, id):
         return Response("Job doesn't exist ", status=status.HTTP_404_NOT_FOUND)
 
 
-# func accept
+@api_view(['Post'])
+@permission_classes([IsRecruiter])
+def assign(request):
+    pass
+    # try:
+    #     job_id = request.data['job_id']
+    #     developer_id= request.data['developer_id']
+    #     job = Job.objects.get(pk=job_id)
+    #     developer_ids = list(Job.objects.filter(pk=job_id).values_list('applied_developer', flat=True))
+    #     if request.user == job.created_by:
+    #         if developer_id in developer_ids:
+    #             job.accepted_developer.add(developer_id)
+    #             job.status = 'Inprogress'
+    #             job.save()
+    #         else:
+    #             return Response("Selected Developer is not one of the applied developers", status=status.HTTP_406_NOT_ACCEPTABLE)
+    #     else:
+    #         return Response("You are not the owner of this Job", status=status.HTTP_406_NOT_ACCEPTABLE)
+    #
+    #  except Job.DoesNotExist:
+    #         return Response("Job doesn't exist ", status=status.HTTP_404_NOT_FOUND)
