@@ -9,7 +9,7 @@ urlpatterns = [
     path('create', create_job, name='enter_job'),
     path('update/<int:id>', update, name='update_status'),
     path('apply/<int:id>', apply, name='apply_to_job'),
-    path('assign/<int:id>/<>', assign, name='assign_job'),
+    path('assign/', assign, name='assign_job'),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
