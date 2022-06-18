@@ -18,19 +18,24 @@ def job_update_action(*args, **kwargs):
         job_owner = obj.created_by
         job_owner_obj = User.objects.get(username=job_owner)
         print(job_owner_obj.allow_mail_notification)
-        if job_owner_obj.allow_mail_notification == True:
-            subject = 'Job has been finished'
-            mail = job_owner_obj.email
-            receivers = ['hadeermostafa.094@gmail.com', mail]
+        if obj.status == 'Finished':
+            print(obj.status)
             msg = f"Check {obj.name} Job, it has been marked as finished"
             id = job_owner.id
             notify = Notification(message=msg, user_id=id)
             notify.save()
-            # work for any save in job model
-            res = send_mail(subject=subject, message=msg, from_email='djangonotifysys@gmail.com', recipient_list= receivers, fail_silently=False)
-            print(res)
+            if job_owner_obj.allow_mail_notification == True:
+                subject = 'Job has been finished'
+                mail = job_owner_obj.email
+                receivers = ['hadeermostafa.094@gmail.com', mail]
+                res = send_mail(subject=subject, message=msg, from_email='djangonotifysys@gmail.com', recipient_list= receivers, fail_silently=False)
+                print(res)
+            else:
+                pass
         else:
-            pass
+            print('job not finished')
+    else:
+        pass
 
 def job_creation_action(sender, **kwargs):
     obj = kwargs.get('instance')
