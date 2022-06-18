@@ -3,6 +3,7 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
 from .models import Job
+from .models import Tag
 from .serializers import JobSerializer
 from rest_framework.decorators import api_view, authentication_classes
 from rest_framework import status
@@ -25,7 +26,7 @@ def create_job(request, format=None):
     serializer = JobSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
         job = serializer.save()
-        job.Tags.set(request.data.get('Tags'))
+        job.Tags.set(request.data['Tags'].split(','))
         job.applied_developer.set(request.data.get('applied_developer'))
         job.accepted_developer_id = request.data.get('accepted_developer')
         job.created_by_id = request.user.id
@@ -46,6 +47,7 @@ def job_detail(request,id,format=None):
         return Response(serializer.data)
     elif request.method == 'PUT':
         serializer = JobSerializer(job, data=request.data)
+        job.Tags.set(request.data['Tags'].split(','))
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
