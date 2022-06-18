@@ -31,10 +31,10 @@ def signup(request):
     return Response(**response)
 
 
-@api_view(['GET'])
 # @permission_classes([])
-# @authentication_classes([TokenAuthentication])
-# @permission_classes([IsAuthenticated])
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def get_users(request):
     users = User.objects.all().exclude(id=1)
     serializer = UserSerializer(users, many=True)
