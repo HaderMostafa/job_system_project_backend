@@ -64,6 +64,8 @@ def get_user(request, user_id):
 
 
 @api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def get_profile(request):
     response = {'data': {}, 'status': status.HTTP_204_NO_CONTENT}
     user_id = request.user.id
@@ -108,17 +110,13 @@ def update_user(request, user_id):
     return Response(**response)
 
 @api_view(['PUT'])
-@permission_classes([IsOwner])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def update_profile(request):
     response = {'data': {}, 'status': status.HTTP_204_NO_CONTENT}
     user_id = request.user.id
     user_instance = User.objects.get(id=user_id)
-
-    if request.method == 'PUT':
-        serializer = UserUpdateSerializer(instance=user_instance, data=request.data)
-    else:
-        serializer = UserUpdateSerializer(instance=user_instance, data=request.data, partial=True)
-
+    serializer = UserUpdateSerializer(instance=user_instance, data=request.data)
     if serializer.is_valid():
         serializer.save()
         response['data'] = serializer.data['username']
