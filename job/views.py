@@ -114,20 +114,19 @@ def apply(request, id):
 @permission_classes([IsRecruiter])
 def assign(request):
     try:
-        # open job status
         job_id = request.data['job_id']
         developer_id = int(request.data['developer_id'])
         job = Job.objects.get(pk=job_id)
         developer_ids = list(Job.objects.filter(pk=job_id).values_list('applied_developer', flat=True))
-        if request.user == job.created_by:
+        if request.user == job.created_by and job.status == 'Open':
             if developer_id in developer_ids:
-                #
-                job.accepted_developer = User.objects.get(pk=developer_id)
+                job.accepted_developer = User.objects.get(id=developer_id)
                 job.status = 'Inprogress'
                 job.save()
+                return Response("Success", status=status.HTTP_200_OK)
             else:
                 return Response("Selected Developer is not one of the applied developers", status=status.HTTP_406_NOT_ACCEPTABLE)
         else:
-            return Response("You are not the owner of this Job", status=status.HTTP_406_NOT_ACCEPTABLE)
+            return Response("You are not the owner of this Job or Job status is not open", status=status.HTTP_406_NOT_ACCEPTABLE)
     except Job.DoesNotExist:
         return Response("Job doesn't exist ", status=status.HTTP_404_NOT_FOUND)
