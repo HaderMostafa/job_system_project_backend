@@ -1,6 +1,6 @@
 from django.db import models
-
 from account.models import User
+from tag.models import Tag
 
 
 class Job(models.Model):
@@ -15,13 +15,13 @@ class Job(models.Model):
     description = models.fields.CharField(verbose_name='Description', max_length=250)
     status = models.fields.CharField(choices=STATUS,max_length=40)
     #Creation_time=models.fields.DateField(verbose_name='CreationTime')
-    Modification_time = models.fields.DateField(verbose_name='Modification Time')
-    Tags = models.ManyToManyField('tag.tag')
+    Modification_time = models.fields.DateField(verbose_name='Modification Time', null=True, blank=True)
+    Tags = models.ManyToManyField(Tag)
     #applied_developer = models.ManyToManyField('user.user')
     #accepted_developer= models.OneToOneField('user.user')
     #banner_image =models.ImageField(upload_to='job',default='')
-    applied_developer = models.ManyToManyField(User, related_name="applied_developer",null=True)
-    accepted_developer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="accepted_developer", null=True)
+    applied_developer = models.ManyToManyField(User, related_name="applied_developer",null=True, blank=True)
+    accepted_developer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="accepted_developer", null=True, blank=True)
     banner_image = models.ImageField(upload_to='job', default='cat.img')
     creation_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)

@@ -10,7 +10,7 @@ from rest_framework import status
 from rest_framework.response import Response
 
 @api_view(['GET','POST'])
-def jobs_list(request,fromat=None):
+def jobs_list(request,format=None):
     #get all the drinks 
     #serialize them
     #return json
