@@ -99,6 +99,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+        'OPTIONS': {
+            'timeout': 20,
+        }
     }
 }
 
@@ -165,7 +168,7 @@ AUTH_USER_MODEL = 'account.User'
 EMAIL_HOST = 'smtp.mailtrap.io'
 EMAIL_HOST_USER = '5c79325f103ce5'
 EMAIL_HOST_PASSWORD = '7eaac2bbfd789d'
-EMAIL_PORT = '2525'
+EMAIL_PORT = '465'
 # EMAIL_HOST = 'smtp.gmail.com'
 # EMAIL_HOST_USER = 'djangonotifysys@gmail.com'
 # EMAIL_HOST_PASSWORD = 'USPNXdaFEwtb200'
