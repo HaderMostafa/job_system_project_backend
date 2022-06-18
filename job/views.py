@@ -30,8 +30,8 @@ def create_job(request, format=None):
     return Response(status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET', 'PUT', 'DELETE'])
-def job_detail(request, id, format=None):
+@api_view(['GET','PUT','DELETE'])
+def job_detail(request,id,format=None):
     try:
         job = Job.objects.get(pk=id)
     except Job.DoesNotExist:

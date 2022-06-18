@@ -1,6 +1,7 @@
 from django.db import models
 from account.models import User
 from .validator import validate_file_extension
+from tag.models import Tag
 
 
 class Job(models.Model):
